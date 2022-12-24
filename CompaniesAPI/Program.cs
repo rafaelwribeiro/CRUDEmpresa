@@ -21,8 +21,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseInMemoryDataba
     ServiceLifetime.Scoped);
 
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 
 builder.Services.AddScoped<ICompanyService, CompanyService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
 
 var app = builder.Build();
 

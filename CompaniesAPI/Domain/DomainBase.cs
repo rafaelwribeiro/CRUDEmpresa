@@ -3,9 +3,13 @@
     public abstract class DomainBase
     {
         public int Id { get; set; }
-        private DateTime? _createdAt = null;
+        private DateTime? _createdAt;
         public DateTime? CreatedAt {
-            get { return _createdAt; }
+            get {
+                if (_createdAt == null)
+                    _createdAt = DateTime.Now;
+                return _createdAt; 
+            }
             set
             {
                 if(_createdAt == null)
