@@ -4,6 +4,8 @@ namespace CompaniesAPI.Services
 {
     public interface ICompanyService
     {
-        public Task<CompanyReadContract> Add(CompanyCreateContract contract);
+        public Task<CompanyReadContract> AddAsync(CompanyCreateContract contract);
+        public Task<CompanyReadContract> GetAsync(int id);
+        public Task<IList<CompanyReadContract>> GetAllAsync();
     }
 }

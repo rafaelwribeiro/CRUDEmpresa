@@ -31,9 +31,11 @@ namespace CompaniesAPI.Infra.Repositories
             return entity;
         }
 
-        public async Task<IList<Company>> GetAsync()
+        public async Task<IList<Company>> GetAllAsync()
         {
             var list = await _appDbContext.Companies.ToListAsync();
+            if (list == null)
+                list = new List<Company>();
             return list;
         }
 

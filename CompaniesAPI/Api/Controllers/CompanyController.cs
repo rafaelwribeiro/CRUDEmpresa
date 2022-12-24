@@ -1,6 +1,7 @@
 ﻿using CompaniesAPI.Api.Contracts;
 using CompaniesAPI.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics.Contracts;
 
 namespace CompaniesAPI.Api.Controllers;
 
@@ -15,11 +16,29 @@ public class CompanyController : ControllerBase
         _companyService = companyService;
     }
 
-    public async Task<IActionResult> AddCompany(CompanyCreateContract contract)
+    [HttpGet]
+    [Route("{id}", Name = "Get")]
+    public async Task<IActionResult> Get(int id)
     {
         try
         {
-            _companyService.Add(contract);
+            var company = await _companyService.GetAsync(id);
+            if (company == null)
+                return NotFound();
+            return Ok(company);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddCompany([FromBody] CompanyCreateContract contract)
+    {
+        try
+        {
+            var newCompany = await _companyService.AddAsync(contract);
             return Ok();
         }
         catch (Exception ex)
