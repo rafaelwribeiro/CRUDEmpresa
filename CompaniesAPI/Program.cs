@@ -16,6 +16,14 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo{ Title = "Companies API", Version = "v1" } );
 });
 
+builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseInMemoryDatabase("CompaniesAPI"),
+    ServiceLifetime.Scoped,
+    ServiceLifetime.Scoped);
+
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+
+builder.Services.AddScoped<ICompanyService, CompanyService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -32,11 +40,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseInMemoryDatabase("CompaniesAPI"),
-    ServiceLifetime.Scoped,
-    ServiceLifetime.Scoped);
-
-builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
-
-builder.Services.AddScoped<ICompanyService, CompanyService>();

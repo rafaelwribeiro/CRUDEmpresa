@@ -2,6 +2,7 @@
 {
     public abstract class DomainBase
     {
+        public int Id { get; set; }
         private DateTime? _createdAt = null;
         public DateTime? CreatedAt {
             get { return _createdAt; }

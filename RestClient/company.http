@@ -1,0 +1,30 @@
+GET https://localhost:7256/company
+
+
+###
+GET https://localhost:7256/company/1
+
+
+###
+POST https://localhost:7256/company
+Content-Type: application/json
+
+{
+    "Name": "Empresa 1",
+    "Phone": "123"
+}
+
+
+###
+PUT https://localhost:7256/company
+Content-Type: application/json
+
+{
+    "Id": 1,
+    "Name": "Empresa Teste 1",
+    "Phone": "1234"
+}
+
+
+###
+DELETE https://localhost:7256/company/1

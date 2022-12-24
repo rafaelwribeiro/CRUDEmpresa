@@ -1,6 +1,6 @@
 ﻿namespace CompaniesAPI.Api.Contracts;
 
-public class CompanyReadContract
+public class CompanyUpdateContract
 {
     public int Id { get; set; }
     public string Name { get; set; }

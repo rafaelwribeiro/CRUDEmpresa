@@ -20,6 +20,11 @@ namespace CompaniesAPI.Services
             return newCompany.Adapt<CompanyReadContract>();
         }
 
+        public async Task Delete(int id)
+        {
+            await _companyRepository.DeleteAsync(id);
+        }
+
         public async Task<IList<CompanyReadContract>> GetAllAsync()
         {
             var list = await _companyRepository.GetAllAsync();
@@ -31,6 +36,14 @@ namespace CompaniesAPI.Services
         {
             var company = await _companyRepository.GetAsync(id);
             return company.Adapt<CompanyReadContract>();
+        }
+
+        public async Task UpdateAsync(CompanyUpdateContract contract)
+        {
+            var company = await _companyRepository.GetAsync(contract.Id);
+            company.Name = contract.Name;
+            company.Phone= contract.Phone;
+            await _companyRepository.UpdateAsync(company);
         }
     }
 }

@@ -19,10 +19,10 @@ namespace CompaniesAPI.Infra.Repositories
             return entity;
         }
 
-        public void DeleteAsync(Company entity)
+        public async Task DeleteAsync(Company entity)
         {
             _appDbContext.Companies.Remove(entity);
-            _appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync();
         }
 
         public async Task<Company> GetAsync(int id)
@@ -50,6 +50,12 @@ namespace CompaniesAPI.Infra.Repositories
             _appDbContext.Attach(entity);
             _appDbContext.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             await _appDbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var del = await GetAsync(id);
+            await DeleteAsync(del);
         }
     }
 }
