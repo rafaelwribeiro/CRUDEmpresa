@@ -1,5 +1,5 @@
 ﻿namespace CompaniesAPI.Domain;
 
-public class Role
+public class Role : DomainBase
 {
 }

@@ -2,7 +2,6 @@
 using CompaniesAPI.Domain;
 using CompaniesAPI.Infra.Repositories;
 using Mapster;
-using System.Linq;
 
 namespace CompaniesAPI.Services
 {

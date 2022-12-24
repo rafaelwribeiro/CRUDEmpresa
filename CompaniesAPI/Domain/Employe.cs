@@ -2,7 +2,7 @@
 
 namespace CompaniesAPI.Domain;
 
-public class Employe
+public class Employe : DomainBase
 {
     public int Id { get; set; }
     public string Name { get; set; }

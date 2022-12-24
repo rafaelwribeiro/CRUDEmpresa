@@ -1,6 +1,6 @@
 ﻿namespace CompaniesAPI.Domain;
 
-public class Address
+public class Address : DomainBase
 {
     public string ZipCode { get; set; }
     public string Street { get; set; }
