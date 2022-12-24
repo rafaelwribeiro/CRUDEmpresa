@@ -1,3 +1,9 @@
+using CompaniesAPI.Infra;
+using CompaniesAPI.Infra.Repositories;
+using CompaniesAPI.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,7 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo{ Title = "Companies API", Version = "v1" } );
+});
 
 var app = builder.Build();
 
@@ -23,3 +32,11 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseInMemoryDatabase("CompaniesAPI"),
+    ServiceLifetime.Scoped,
+    ServiceLifetime.Scoped);
+
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+
+builder.Services.AddScoped<ICompanyService, CompanyService>();
