@@ -1,6 +1,6 @@
 ﻿namespace CompaniesAPI.Domain;
 
-public class Employe : DomainBase
+public class Employee : DomainBase
 {
     public string Name { get; set; }
     public float Salary { get; set; }

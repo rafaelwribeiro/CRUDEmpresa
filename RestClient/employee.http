@@ -1,0 +1,2 @@
+### LISTAR TODOS
+GET https://localhost:7256/company/1/employee

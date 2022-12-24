@@ -9,13 +9,13 @@ namespace CompaniesAPI.Services
     {
         private readonly ICompanyRepository _companyRepository;
         private readonly IAddressRepository _addressRepository;
-        private readonly IEmployeRepository _employeRepository;
+        private readonly IEmployeeRepository _employeRepository;
         private readonly IRoleRepository _roleRepository;
 
 
         public CompanyService(ICompanyRepository companyRepository,
                               IAddressRepository addressRepository,
-                              IEmployeRepository employeRepository,
+                              IEmployeeRepository employeRepository,
                               IRoleRepository roleRepository)
         {
             _companyRepository = companyRepository;
@@ -32,7 +32,7 @@ namespace CompaniesAPI.Services
             return newCompany.Adapt<CompanyReadContract>();
         }
 
-        private async Task BindEmployesRole(IList<Employe> employes)
+        private async Task BindEmployesRole(IList<Employee> employes)
         {
             if (employes == null) return;
 
@@ -63,9 +63,21 @@ namespace CompaniesAPI.Services
         public async Task<CompanyReadContract> GetAsync(int id)
         {
             var company = await _companyRepository.GetAsync(id);
-            company.Address = await _addressRepository.GetByCompanyIdAsync(company.Id);
-            company.Employes = await _employeRepository.GetByCompanyIdAsync(company.Id);
+            await BindAddress(company);
+            await BindEmployees(company);
             return company.Adapt<CompanyReadContract>();
+        }
+
+        private async Task BindEmployees(Company company)
+        {
+            if (company == null) return;
+            company.Employes = await _employeRepository.GetByCompanyIdAsync(company.Id);
+        }
+
+        private async Task BindAddress(Company company)
+        {
+            if (company == null) return;
+            company.Address = await _addressRepository.GetByCompanyIdAsync(company.Id);
         }
 
         public async Task UpdateAsync(CompanyUpdateContract contract)
