@@ -1,3 +1,4 @@
+### LISTAR TODOS
 GET https://localhost:7256/company
 
 
@@ -23,11 +24,10 @@ Content-Type: application/json
     },
     "Employes":[
         {
-            "Name": "Empregado 1",
-            "Salary": 10500,
-            "Role":{
-                "Id": 1,
-                "Name": "Programador"
+            "name": "Empregado 1",
+            "salary": 10000,
+            "role":{
+                "Id": 1
             }
         }
     ]

@@ -8,16 +8,39 @@ namespace CompaniesAPI.Services
     public class CompanyService : ICompanyService
     {
         private readonly ICompanyRepository _companyRepository;
+        private readonly IAddressRepository _addressRepository;
+        private readonly IEmployeRepository _employeRepository;
+        private readonly IRoleRepository _roleRepository;
 
-        public CompanyService(ICompanyRepository companyRepository)
+
+        public CompanyService(ICompanyRepository companyRepository,
+                              IAddressRepository addressRepository,
+                              IEmployeRepository employeRepository,
+                              IRoleRepository roleRepository)
         {
             _companyRepository = companyRepository;
+            _addressRepository = addressRepository;
+            _employeRepository = employeRepository;
+            _roleRepository = roleRepository;
         }
 
         public async Task<CompanyReadContract> AddAsync(CompanyCreateContract contract)
         {
-            var newCompany = await _companyRepository.AddAsync(contract.Adapt<Company>());
+            var company = contract.Adapt<Company>();
+            await BindEmployesRole(company.Employes);
+            var newCompany = await _companyRepository.AddAsync(company);
             return newCompany.Adapt<CompanyReadContract>();
+        }
+
+        private async Task BindEmployesRole(IList<Employe> employes)
+        {
+            if (employes == null) return;
+
+            foreach(var employe in employes)
+            {
+                if(employe.Role == null) continue;
+                employe.Role = await _roleRepository.GetAsync(employe.Role.Id);
+            }
         }
 
         public async Task Delete(int id)
@@ -28,6 +51,11 @@ namespace CompaniesAPI.Services
         public async Task<IList<CompanyReadContract>> GetAllAsync()
         {
             var list = await _companyRepository.GetAllAsync();
+            list.ToList().ForEach(company =>
+            {
+                company.Address = _addressRepository.GetByCompanyIdAsync(company.Id).Result;
+                company.Employes = _employeRepository.GetByCompanyIdAsync(company.Id).Result;
+            });
             var resultList = list.Select(c => c.Adapt<CompanyReadContract>()).ToList();
             return resultList;
         }
@@ -35,6 +63,8 @@ namespace CompaniesAPI.Services
         public async Task<CompanyReadContract> GetAsync(int id)
         {
             var company = await _companyRepository.GetAsync(id);
+            company.Address = await _addressRepository.GetByCompanyIdAsync(company.Id);
+            company.Employes = await _employeRepository.GetByCompanyIdAsync(company.Id);
             return company.Adapt<CompanyReadContract>();
         }
 

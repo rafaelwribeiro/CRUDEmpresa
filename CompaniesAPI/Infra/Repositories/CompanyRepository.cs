@@ -15,8 +15,18 @@ namespace CompaniesAPI.Infra.Repositories
         public async Task<Company> AddAsync(Company entity)
         {
             await _appDbContext.Companies.AddAsync(entity);
+            await _appDbContext.Addresses.AddAsync(entity.Address);
+            await AddEmployes(entity);
+
             await _appDbContext.SaveChangesAsync();
             return entity;
+        }
+
+        private async Task AddEmployes(Company entity)
+        {
+            if (entity.Employes is null) return;
+            foreach (var e in entity.Employes)
+                await _appDbContext.Employes.AddAsync(e);
         }
 
         public async Task DeleteAsync(Company entity)
