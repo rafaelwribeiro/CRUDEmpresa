@@ -11,7 +11,26 @@ Content-Type: application/json
 
 {
     "Name": "Empresa 1",
-    "Phone": "123"
+    "Phone": "123",
+    "Address": {
+        "ZipCode": "85814-518",
+        "Street": "Rua Apolonia Vedana",
+        "Number": "1661",
+        "Neighborhood": "Floresta",
+        "City": "Cascavel",
+        "CountryCode": "",
+        "Complement": ""
+    },
+    "Employes":[
+        {
+            "Name": "Empregado 1",
+            "Salary": 10500,
+            "Role":{
+                "Id": 1,
+                "Name": "Programador"
+            }
+        }
+    ]
 }
 
 

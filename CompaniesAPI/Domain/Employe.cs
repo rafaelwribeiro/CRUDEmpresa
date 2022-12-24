@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace CompaniesAPI.Domain;
+﻿namespace CompaniesAPI.Domain;
 
 public class Employe : DomainBase
 {
