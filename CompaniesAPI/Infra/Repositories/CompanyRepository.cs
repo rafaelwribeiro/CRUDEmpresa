@@ -15,18 +15,8 @@ namespace CompaniesAPI.Infra.Repositories
         public async Task<Company> AddAsync(Company entity)
         {
             await _appDbContext.Companies.AddAsync(entity);
-            await _appDbContext.Addresses.AddAsync(entity.Address);
-            await AddEmployes(entity);
-
             await _appDbContext.SaveChangesAsync();
             return entity;
-        }
-
-        private async Task AddEmployes(Company entity)
-        {
-            if (entity.Employes is null) return;
-            foreach (var e in entity.Employes)
-                await _appDbContext.Employes.AddAsync(e);
         }
 
         public async Task DeleteAsync(Company entity)
@@ -37,13 +27,23 @@ namespace CompaniesAPI.Infra.Repositories
 
         public async Task<Company> GetAsync(int id)
         {
-            var entity = await _appDbContext.Companies.Where(c => c.Id == id).FirstOrDefaultAsync();
+            var entity = await _appDbContext
+                .Companies
+                .Include(c => c.Address)
+                .Include(c => c.Employes)
+                    .ThenInclude(e => e.Role)
+                .Where(c => c.Id == id).FirstOrDefaultAsync();
             return entity;
         }
 
         public async Task<IList<Company>> GetAllAsync()
         {
-            var list = await _appDbContext.Companies.ToListAsync();
+            var list = await _appDbContext
+                .Companies
+                .AsNoTracking()
+                .Include(c => c.Employes)
+                    .ThenInclude(e => e.Role)
+                .ToListAsync();
             if (list == null)
                 list = new List<Company>();
             return list;

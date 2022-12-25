@@ -10,6 +10,6 @@ public class Address : DomainBase
     public string CountryCode { get; set; }
     public string Complement { get; set; }
     public int CompanyId { get; set; }
-    public virtual Company Company { get; set; }
+    public Company Company { get; set; }
 
 }

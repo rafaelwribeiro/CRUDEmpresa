@@ -27,7 +27,7 @@ namespace CompaniesAPI.Services
         public async Task<CompanyReadContract> AddAsync(CompanyCreateContract contract)
         {
             var company = contract.Adapt<Company>();
-            await BindEmployesRole(company.Employes);
+            BindEmployesRole(company.Employes);
             var newCompany = await _companyRepository.AddAsync(company);
             return newCompany.Adapt<CompanyReadContract>();
         }
@@ -36,9 +36,9 @@ namespace CompaniesAPI.Services
         {
             if (employes == null) return;
 
-            foreach(var employe in employes)
+            foreach (var employe in employes)
             {
-                if(employe.Role == null) continue;
+                if (employe.Role == null) continue;
                 employe.Role = await _roleRepository.GetAsync(employe.Role.Id);
             }
         }
@@ -51,33 +51,14 @@ namespace CompaniesAPI.Services
         public async Task<IList<CompanyReadContract>> GetAllAsync()
         {
             var list = await _companyRepository.GetAllAsync();
-            list.ToList().ForEach(company =>
-            {
-                company.Address = _addressRepository.GetByCompanyIdAsync(company.Id).Result;
-                company.Employes = _employeRepository.GetByCompanyIdAsync(company.Id).Result;
-            });
-            var resultList = list.Select(c => c.Adapt<CompanyReadContract>()).ToList();
+            var resultList = list.Adapt<IList<CompanyReadContract>>();
             return resultList;
         }
 
         public async Task<CompanyReadContract> GetAsync(int id)
         {
             var company = await _companyRepository.GetAsync(id);
-            await BindAddress(company);
-            await BindEmployees(company);
             return company.Adapt<CompanyReadContract>();
-        }
-
-        private async Task BindEmployees(Company company)
-        {
-            if (company == null) return;
-            company.Employes = await _employeRepository.GetByCompanyIdAsync(company.Id);
-        }
-
-        private async Task BindAddress(Company company)
-        {
-            if (company == null) return;
-            company.Address = await _addressRepository.GetByCompanyIdAsync(company.Id);
         }
 
         public async Task UpdateAsync(CompanyUpdateContract contract)
