@@ -1,25 +1,32 @@
-import CompanyApiServce from '../../services/CompanyAPIService.js';
+import CompanyAPIService from '../../services/CompanyAPIService.js';
 import React, { useState, useEffect } from 'react';
 import TableCompany from './TableCompany';
+import { Button } from '@mantine/core';
+import ModalCompany from './ModalCompany';
 
 export default function Companies(){
     const [companies, setCompanies] = useState([]);
+    const [modalCompanyOpened, setModalCompanyOpened] = useState(false);
 
-    let api = CompanyApiServce.getInstance();
-
-    
+    let api = CompanyAPIService.getInstance();
 
     useEffect(() => {
         api.getCompanies((res)=>{
-            console.log('bora: ', res.data);
             setCompanies(res.data);
         });
         
     }, []);
 
     return (
-        <div>
+        <>
+        <ModalCompany
+            opened={modalCompanyOpened}
+            onClose={() =>setModalCompanyOpened(false)}
+         />
+        <section>
+            <Button onClick={() => setModalCompanyOpened(true)}>Nova empresa</Button>
             <TableCompany itens={companies} />
-        </div>
+        </section>
+        </>
     );
 }

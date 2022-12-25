@@ -6,7 +6,7 @@ public class CompanyReadContract
     public string Name { get; set; }
     public AddressContract? Address { get; set; }
     public string Phone { get; set; }
-    public IList<EmployeeReadContract>? Employes { get; set; }
+    //public IList<EmployeeReadContract>? Employes { get; set; }
     public string FullAddress {
         get {
             return Address.ToString();
