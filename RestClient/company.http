@@ -6,12 +6,12 @@ GET https://localhost:7256/company
 GET https://localhost:7256/company/1
 
 
-###
+### NOVA EMPRESA
 POST https://localhost:7256/company
 Content-Type: application/json
 
 {
-    "Name": "Empresa 1",
+    "Name": "x",
     "Phone": "123",
     "Address": {
         "ZipCode": "85814-518",
@@ -24,8 +24,8 @@ Content-Type: application/json
     },
     "Employes":[
         {
-            "name": "Empregado 1",
-            "salary": 10000,
+            "name": "xx",
+            "salary": 1050000,
             "role":{
                 "Id": 1
             }

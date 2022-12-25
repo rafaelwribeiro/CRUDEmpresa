@@ -1,2 +1,5 @@
 ### GET ALL
 GET https://localhost:7256/role
+
+### GET ONE
+GET https://localhost:7256/role/5

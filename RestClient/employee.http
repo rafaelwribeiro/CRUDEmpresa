@@ -1,2 +1,38 @@
 ### LISTAR TODOS
 GET https://localhost:7256/company/1/employee
+
+### LISTAR UM
+GET https://localhost:7256/company/1/employee/2
+
+### INSERIR UM FUNCIONARIO
+POST https://localhost:7256/company/1/employee
+Content-Type: application/json
+
+{
+    "name": "Rafael",
+    "salary": 10000,
+    "role":{
+        "id": 1
+    }
+}
+
+### ALTERAR
+PUT https://localhost:7256/company/1/employee
+Content-Type: application/json
+
+{
+    "id": 2,
+    "name": "Cupincha",
+    "salary": 15000,
+    "role":{
+        "id": 2
+    }
+}
+
+### DELETAR
+DELETE https://localhost:7256/company/1/employee
+Content-Type: application/json
+
+{
+    "id": 1
+}
