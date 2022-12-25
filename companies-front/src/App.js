@@ -11,7 +11,7 @@ function App() {
     <MantineProvider theme={{ fontFamily: 'Open Sans' }} withGlobalStyles withNormalizeCSS>
       <AppShell
         padding="md"
-        header={<Header height={60} p="xs">{/* Header content */}</Header>}
+        header={<Header height={100} p="xs"><h1>Gerenciador de empresas</h1></Header>}
         navbar={
           <Menu />
         }

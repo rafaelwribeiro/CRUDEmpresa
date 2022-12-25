@@ -15,30 +15,14 @@ export default function Menu(){
     <NavLink
       key={item.label}
       active={index === active}
-      label={<Link  to={item.to}>{item.label}</Link>}
+      label={item.label}
       icon={<item.icon size={16} stroke={1.5} />}
       onClick={() => setActive(index)}
+      component={Link}
+      variant="link"
+      to={item.to}
     />
   ));
 
   return <Navbar  width={{ base: 200 }}  p="xs">{items}</Navbar>;
 }
-
-/*
-<Navbar  width={{ base: 200 }}  p="xs">
-              <Navbar.Section>
-                <NavLink
-                  label={<Link  to="/">Inicio</Link>}
-                  icon={<IconHome2 size={16} stroke={1.5}
-                  component="a" href="/home" target="_blank"
-                />} />
-              </Navbar.Section>
-        
-              <Navbar.Section>
-                <NavLink
-                  label={<Link  to="/companies">Empresas</Link>}
-                  icon={<IconBuilding size={16} stroke={1.5}
-                />} />
-              </Navbar.Section>
-          </Navbar>
-*/
