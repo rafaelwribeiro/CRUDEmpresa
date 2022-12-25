@@ -2,20 +2,13 @@
 {
     public abstract class DomainBase
     {
-        public int Id { get; set; }
-        private DateTime? _createdAt;
-        public DateTime? CreatedAt {
-            get {
-                if (_createdAt == null)
-                    _createdAt = DateTime.Now;
-                return _createdAt; 
-            }
-            set
-            {
-                if(_createdAt == null)
-                    _createdAt = DateTime.Now;
-            }
+        public DomainBase()
+        {
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
         }
+        public int Id { get; set; }
+        public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
     }
 }

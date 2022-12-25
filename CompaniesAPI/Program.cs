@@ -16,9 +16,15 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo{ Title = "Companies API", Version = "v1" } );
 });
 
-builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseInMemoryDatabase("CompaniesAPI"),
+/*builder.Services.AddDbContext<ApplicationDbContext>(
+    opt => opt.UseInMemoryDatabase("CompaniesAPI"),
     ServiceLifetime.Scoped,
-    ServiceLifetime.Scoped);
+    ServiceLifetime.Scoped
+);*/
+
+builder.Services.AddDbContext<ApplicationDbContext>(
+    opt => opt.UseSqlServer("Data Source=localhost;Initial Catalog=rafael;User ID=sa;Password=1q2w3e4r@#$;TrustServerCertificate=True")
+);
 
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();

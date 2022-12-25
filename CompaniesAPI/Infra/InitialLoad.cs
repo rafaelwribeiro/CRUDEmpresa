@@ -9,22 +9,30 @@ namespace CompaniesAPI.Infra
         {
             using (var context = new ApplicationDbContext(serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
             {
-                var role1 = new Role();
-                role1.Name = "Programador";
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
 
-                var role2 = new Role();
-                role2.Name = "Designer";
-
-                var role3 = new Role();
-                role3.Name = "Administração";
-
-                context.Roles.Add(role1);
-                context.Roles.Add(role2);
-                context.Roles.Add(role3);
-                context.SaveChanges();
-
-
+                PopulateRoles(context);
             }
+        }
+
+        private static void PopulateRoles(ApplicationDbContext context)
+        {
+            if (context.Roles.Any()) return;
+
+            var role1 = new Role();
+            role1.Name = "Programador";
+
+            var role2 = new Role();
+            role2.Name = "Designer";
+
+            var role3 = new Role();
+            role3.Name = "Administração";
+
+            context.Roles.Add(role1);
+            context.Roles.Add(role2);
+            context.Roles.Add(role3);
+            context.SaveChanges();
         }
     }
 }
