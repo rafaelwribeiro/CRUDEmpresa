@@ -1,6 +1,5 @@
-import { MantineProvider, AppShell, Navbar, Header, NavLink } from '@mantine/core';
-import { IconHome2, IconBuilding } from '@tabler/icons';
-import { Routes, Route, Link } from 'react-router-dom';
+import { MantineProvider, AppShell, Header } from '@mantine/core';
+import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Companies from './pages/Companies';
 import Menu from './template/Menu';

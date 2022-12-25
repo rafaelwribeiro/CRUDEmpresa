@@ -1,5 +1,11 @@
+import CompanyApiServce from '../../services/CompanyAPIService.js';
+
 export default function Companies(){
+    let api = CompanyApiServce.getInstance();
+
     return (
-        <h2>Empresas</h2>
+        <div>
+            {api.getCompanies()}
+        </div>
     );
 }
