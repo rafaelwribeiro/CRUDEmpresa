@@ -1,25 +1,28 @@
-import { Modal, TextInput, Divider , Button, Group, Box  } from '@mantine/core';
+import { Modal, TextInput, Divider , Button, Group, Box, Tabs } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useState } from 'react';
 import ViaCEPAPIService from '../../../services/ViaCEPAPIService.js';
 import CompanyAPIService from '../../../services/CompanyAPIService.js';
+import { IconFileDatabase } from '@tabler/icons';
+import TableEmployee from './TableEmployee';
 
-export default function ModalCompany({opened, onClose}){
+export default function ModalCompany({company, opened, onClose, onSuccess}){
     const [zipCodeFind, setZipCodeFind] = useState('');
     const form = useForm({
         initialValues: {
-          name: '',
-          phone: '',
-          address: {
-            zipCode: '',
-            street: '',
-            number: '',
-            neighborhood: '',
-            city: '',
-            state: ''
-          }
+            id: '',
+            name: '',
+            phone: '',
+            address: {
+                zipCode: '',
+                street: '',
+                number: '',
+                neighborhood: '',
+                city: '',
+                state: ''
+            }
         },
-    
+  
         validate: {
           name: (value) => {
                 if(value.length > 200)
@@ -29,7 +32,9 @@ export default function ModalCompany({opened, onClose}){
                 return null;
             },
         },
-      });
+    });
+
+    
 
     let zipCodeAPI = ViaCEPAPIService.getInstance();
     let companyApi = CompanyAPIService.getInstance();
@@ -56,7 +61,10 @@ export default function ModalCompany({opened, onClose}){
     }
 
     let handleSubmit = (values) => {
-        companyApi.postCompany(values, ()=>alert('sucesso'));
+        companyApi.postCompany(values, ()=> {
+            form.reset();
+            onSuccess();
+        });
     }
 
     return (
@@ -64,76 +72,90 @@ export default function ModalCompany({opened, onClose}){
             opened={opened}
             onClose={onClose}
             title="Cadastrar nova empresa"
+            size="lg"
         >
-            <Box sx={{ maxWidth: 600 }} mx="auto">
-                <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-                    <TextInput
-                        withAsterisk
-                        label="Nome"
-                        placeholder="Nome"
-                        {...form.getInputProps('name')}
-                    />
+            <Tabs defaultValue="company">
+                <Tabs.List>
+                    <Tabs.Tab value="company" icon={<IconFileDatabase size={14} />}>Empresa</Tabs.Tab>
+                    <Tabs.Tab value="employee" icon={<IconFileDatabase size={14} />}>Funcionarios</Tabs.Tab>
+                </Tabs.List>
 
-                    <TextInput
-                        withAsterisk
-                        label="Telefone"
-                        placeholder="(99) 9 9999-9999"
-                        {...form.getInputProps('phone')}
-                    />
+                <Tabs.Panel value="company" pt="xs">
+                    <Box sx={{ maxWidth: 600 }} mx="auto">
+                        <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+                            <TextInput
+                                withAsterisk
+                                label="Nome"
+                                placeholder="Nome"
+                                {...form.getInputProps('name')}
+                            />
 
-                    <Divider my="sm" />
+                            <TextInput
+                                withAsterisk
+                                label="Telefone"
+                                placeholder="(99) 9 9999-9999"
+                                {...form.getInputProps('phone')}
+                            />
 
-                    
-                    <TextInput
-                        withAsterisk
-                        label="CEP"
-                        placeholder="00000-000"
-                        {...form.getInputProps('address.zipCode')}
-                        onBlur={() => getAddresByZipCode()}
-                    />
-                    
-                    <TextInput
-                        withAsterisk
-                        label="Logradouro"
-                        placeholder="Rua ..."
-                        {...form.getInputProps('address.street')}
-                    />
+                            <Divider my="sm" />
 
-                    <TextInput
-                        withAsterisk
-                        label="Número"
-                        placeholder="000"
-                        {...form.getInputProps('address.number')}
-                        size="sm"
-                    />
+                            
+                            <TextInput
+                                withAsterisk
+                                label="CEP"
+                                placeholder="00000-000"
+                                {...form.getInputProps('address.zipCode')}
+                                onBlur={() => getAddresByZipCode()}
+                            />
+                            
+                            <TextInput
+                                withAsterisk
+                                label="Logradouro"
+                                placeholder="Rua ..."
+                                {...form.getInputProps('address.street')}
+                            />
 
-                    <TextInput
-                        withAsterisk
-                        label="Bairro"
-                        placeholder=""
-                        {...form.getInputProps('address.neighborhood')}
-                    />
+                            <TextInput
+                                withAsterisk
+                                label="Número"
+                                placeholder="000"
+                                {...form.getInputProps('address.number')}
+                                size="sm"
+                            />
 
-                    <TextInput
-                        withAsterisk
-                        label="Cidade"
-                        placeholder=""
-                        {...form.getInputProps('address.city')}
-                    />
+                            <TextInput
+                                withAsterisk
+                                label="Bairro"
+                                placeholder=""
+                                {...form.getInputProps('address.neighborhood')}
+                            />
 
-                    <TextInput
-                        withAsterisk
-                        label="Estado"
-                        placeholder=""
-                        {...form.getInputProps('address.state')}
-                    />
+                            <TextInput
+                                withAsterisk
+                                label="Cidade"
+                                placeholder=""
+                                {...form.getInputProps('address.city')}
+                            />
 
-                    <Group position="right" mt="md">
-                        <Button type="submit">Gravar</Button>
-                    </Group>
-                    
-                </form>
-            </Box>
+                            <TextInput
+                                withAsterisk
+                                label="Estado"
+                                placeholder=""
+                                {...form.getInputProps('address.state')}
+                            />
+
+                            <Group position="right" mt="md">
+                                <Button type="submit">Gravar</Button>
+                            </Group>
+                        </form>
+                    </Box>
+                </Tabs.Panel>
+                <Tabs.Panel value="employee" pt="xs">
+                    <TableEmployee
+                        employes={company.employes}
+                    />
+                </Tabs.Panel>
+            </Tabs>
         </Modal>
     );
 }

@@ -33,6 +33,23 @@ Content-Type: application/json
     ]
 }
 
+###
+POST https://localhost:7256/company
+Content-Type: application/json
+
+{
+    "name": "aaa",
+    "phone": "999999999",
+    "address": {
+        "zipCode": "85814518",
+        "street": "Rua Apolonia Vedana",
+        "number": "123",
+        "neighborhood": "Floresta",
+        "city": "Cascavel",
+        "state": "PR"
+    }
+}
+
 
 ###
 PUT https://localhost:7256/company

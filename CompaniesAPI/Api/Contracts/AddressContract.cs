@@ -9,11 +9,12 @@ public class AddressContract
     public string Number { get; set; }
     public string Neighborhood { get; set; }
     public string City { get; set; }
+    public string State { get; set; }
     public string? CountryCode { get; set; }
     public string? Complement { get; set; }
 
     public string ToString()
     {
-        return $"{Street}, {Number}, {Neighborhood} - {City}    {ZipCode}";
+        return $"{Street}, {Number}, {Neighborhood} - {City}/{State}   CEP: {ZipCode}";
     }
 }

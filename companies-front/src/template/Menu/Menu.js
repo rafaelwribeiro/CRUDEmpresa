@@ -14,7 +14,7 @@ export default function Menu(){
   const items = data.map((item, index) => (
     <NavLink
       key={item.label}
-      active={index === active}
+      active={false}
       label={item.label}
       icon={<item.icon size={16} stroke={1.5} />}
       onClick={() => setActive(index)}

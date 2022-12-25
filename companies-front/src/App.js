@@ -1,4 +1,8 @@
 import { MantineProvider, AppShell, Header } from '@mantine/core';
+
+import { Notification } from '@mantine/core';
+import { IconCheck, IconX } from '@tabler/icons';
+
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Companies from './pages/Companies';
@@ -24,6 +28,7 @@ function App() {
         </Routes>
       </AppShell>
     </MantineProvider>
+    
   );
 }
 
