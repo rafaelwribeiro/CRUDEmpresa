@@ -8,26 +8,20 @@ namespace CompaniesAPI.Services
     public class CompanyService : ICompanyService
     {
         private readonly ICompanyRepository _companyRepository;
-        private readonly IAddressRepository _addressRepository;
-        private readonly IEmployeeRepository _employeRepository;
         private readonly IRoleRepository _roleRepository;
 
 
         public CompanyService(ICompanyRepository companyRepository,
-                              IAddressRepository addressRepository,
-                              IEmployeeRepository employeRepository,
                               IRoleRepository roleRepository)
         {
             _companyRepository = companyRepository;
-            _addressRepository = addressRepository;
-            _employeRepository = employeRepository;
             _roleRepository = roleRepository;
         }
 
         public async Task<CompanyReadContract> AddAsync(CompanyCreateContract contract)
         {
             var company = contract.Adapt<Company>();
-            BindEmployesRole(company.Employes);
+            await BindEmployesRole(company.Employes);
             var newCompany = await _companyRepository.AddAsync(company);
             return newCompany.Adapt<CompanyReadContract>();
         }

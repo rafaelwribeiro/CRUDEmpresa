@@ -1,4 +1,5 @@
-﻿using CompaniesAPI.Infra.Repositories;
+﻿using CompaniesAPI.Api.Contracts;
+using CompaniesAPI.Infra.Repositories;
 using CompaniesAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,6 +25,68 @@ public class EmployeeController : ControllerBase
             return Ok(list);
         }
         catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet]
+    [Route("{id}", Name = "EmployeeDetails")]
+    public async Task<IActionResult> Get(int idCompany, int id)
+    {
+        try
+        {
+            var employee = await _employeeService.GetAsync(idCompany, id);
+            if (employee == null) return NotFound();
+            return Ok(employee);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Post(int idCompany, [FromBody] EmployeeCreateContract contract)
+    {
+        try
+        {
+            var employee = await _employeeService.CreateAsync(idCompany, contract);
+            return CreatedAtRoute("EmployeeDetails", new { idCompany = idCompany, id = employee.Id }, employee);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> Put(int idCompany, EmployeeUpdateContract contract)
+    {
+        try
+        {
+            var employee = await _employeeService.GetAsync(idCompany, contract.Id);
+            if (employee == null) return NotFound();
+            await _employeeService.UpdateAsync(idCompany, contract);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpDelete]
+    public async Task<IActionResult> Delete(int idCompany, EmployeeDeleteContract contract)
+    {
+        try
+        {
+            var employee = await _employeeService.GetAsync(idCompany, contract.Id);
+            if (employee == null) return NotFound();
+            await _employeeService.DeleteAsync(idCompany, contract.Id);
+            return NoContent();
+        }
+        catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }

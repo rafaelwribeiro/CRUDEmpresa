@@ -1,6 +1,8 @@
 ﻿using CompaniesAPI.Api.Contracts;
+using CompaniesAPI.Domain;
 using CompaniesAPI.Infra.Repositories;
 using Mapster;
+using System.Diagnostics.Contracts;
 
 namespace CompaniesAPI.Services
 {
@@ -15,33 +17,45 @@ namespace CompaniesAPI.Services
             _roleRepository = roleRepository;
         }
 
-        public Task<EmployeeReadContract> CreateAsync(int idCompany, EmployeeCreateContract contract)
+        public async Task<EmployeeReadContract> CreateAsync(int idCompany, EmployeeCreateContract contract)
         {
-            throw new NotImplementedException();
+            var employee = contract.Adapt<Employee>();
+            await BindRole(employee);
+            var employeeContract = await _employeeRepository.CreateAsync(idCompany, employee);
+            return employeeContract.Adapt<EmployeeReadContract>();
         }
 
-        public Task DeleteAsync(int idCompany, int id)
+        private async Task BindRole(Employee employee)
         {
-            throw new NotImplementedException();
+            if (employee?.Role == null) return;
+            employee.Role = await _roleRepository.GetAsync(employee.RoleId);
+        }
+
+        public async Task DeleteAsync(int idCompany, int id)
+        {
+            var employee = await _employeeRepository.GetAsync(idCompany, id);
+            await _employeeRepository.DeleteAsync(idCompany, employee);
         }
 
         public async Task<IList<EmployeeReadContract>> GetAllAsync(int idCompany)
         {
             var list = await _employeeRepository.GetByCompanyIdAsync(idCompany);
-            var resultList = list.Select(async e => {
-                e.Role = await _roleRepository.GetAsync(e.RoleId);
-            }).ToList();
-            return resultList.Adapt<IList<EmployeeReadContract>>();
+            var resultList = list.Adapt<IList<EmployeeReadContract>>();
+            return resultList;
         }
 
-        public Task<EmployeeReadContract> GetAsync(int idCompany, int id)
+        public async Task<EmployeeReadContract> GetAsync(int idCompany, int id)
         {
-            throw new NotImplementedException();
+            var employee = await _employeeRepository.GetAsync(idCompany, id);
+            return employee.Adapt<EmployeeReadContract>();
         }
 
-        public Task UpdateAsync(int idCompany, EmployeeUpdateContract contract)
+        public async Task UpdateAsync(int idCompany, EmployeeUpdateContract contract)
         {
-            throw new NotImplementedException();
+            var employee = await _employeeRepository.GetAsync(idCompany, contract.Id);
+            contract.Adapt(employee);
+            await BindRole(employee);
+            await _employeeRepository.UpdateAsync(idCompany, employee);
         }
     }
 }

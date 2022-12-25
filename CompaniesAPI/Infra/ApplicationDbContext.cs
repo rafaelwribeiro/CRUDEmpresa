@@ -6,7 +6,7 @@ namespace CompaniesAPI.Infra
     public class ApplicationDbContext : DbContext
     {
         public DbSet<Company> Companies { get; set; }
-        public DbSet<Employee> Employes { get; set; }
+        public DbSet<Employee> Employees { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Address> Addresses { get; set; }
 
