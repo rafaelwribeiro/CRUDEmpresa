@@ -5,13 +5,10 @@ export default class CompanyAPIService{
         return new CompanyAPIService();
     }
 
-    getCompanies(){
-        let companies = [];
+    getCompanies(callback){
         axios.get(this._BaseURL+'company')
-            .then((res) => {
-                console.log(res);
-                companies = res.data;
+            .then((res) =>{
+                callback(res);
             });
-        return companies;
     }
 }

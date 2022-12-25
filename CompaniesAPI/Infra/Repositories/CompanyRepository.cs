@@ -41,6 +41,7 @@ namespace CompaniesAPI.Infra.Repositories
             var list = await _appDbContext
                 .Companies
                 .AsNoTracking()
+                .Include(c => c.Address)
                 .Include(c => c.Employes)
                     .ThenInclude(e => e.Role)
                 .ToListAsync();

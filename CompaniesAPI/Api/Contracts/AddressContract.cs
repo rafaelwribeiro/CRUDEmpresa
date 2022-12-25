@@ -1,4 +1,6 @@
-﻿namespace CompaniesAPI.Api.Contracts;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+
+namespace CompaniesAPI.Api.Contracts;
 
 public class AddressContract
 {
@@ -9,4 +11,9 @@ public class AddressContract
     public string City { get; set; }
     public string CountryCode { get; set; }
     public string Complement { get; set; }
+
+    public string ToString()
+    {
+        return $"{Street}, {Number}, {Neighborhood} - {City}    {ZipCode}";
+    }
 }

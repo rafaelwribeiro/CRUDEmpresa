@@ -7,4 +7,13 @@ public class CompanyReadContract
     public AddressContract? Address { get; set; }
     public string Phone { get; set; }
     public IList<EmployeeReadContract>? Employes { get; set; }
+    public string FullAddress {
+        get {
+            return Address.ToString();
+        }
+        set
+        {
+            FullAddress = value;
+        }
+    }
 }
