@@ -1,14 +1,30 @@
-import { Routes, Route } from 'react-router-dom';
-import Home from './pages/Home'
+import { MantineProvider, AppShell, Navbar, Header, NavLink } from '@mantine/core';
+import { IconHome2, IconBuilding } from '@tabler/icons';
+import { Routes, Route, Link } from 'react-router-dom';
+import Home from './pages/Home';
+import Companies from './pages/Companies';
+import Menu from './template/Menu';
 import './App.css';
 
 function App() {
   return (
-    
-    <Routes>
-      <Route path="/" element={<Home />} />
-      
-    </Routes>
+    <MantineProvider theme={{ fontFamily: 'Open Sans' }} withGlobalStyles withNormalizeCSS>
+      <AppShell
+        padding="md"
+        header={<Header height={60} p="xs">{/* Header content */}</Header>}
+        navbar={
+          <Menu />
+        }
+        styles={(theme) => ({
+        main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
+        })}
+      >
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/companies" element={<Companies />} />
+        </Routes>
+      </AppShell>
+    </MantineProvider>
   );
 }
 
