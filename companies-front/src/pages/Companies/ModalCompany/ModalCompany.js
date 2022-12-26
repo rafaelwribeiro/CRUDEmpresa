@@ -67,6 +67,7 @@ export default function ModalCompany({company, opened, onClose, onSuccess}){
                 </Tabs.Panel>
                 <Tabs.Panel value="employee" pt="xs">
                     <ModalEmployee
+                        idCompany={company.id}
                         employee={employee}
                         opened={modalEmployeeOpened}
                         onClose={() =>setModalEmployeeOpened(false)}
