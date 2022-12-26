@@ -13,7 +13,7 @@ export default function TableCompany({itens, handleEdit}){
                     size="xl"
                     radius="md"
                     variant="filled"
-                    onClick={(evt) => handleEdit(company)}
+                    onClick={() => handleEdit(company)}
                 >
                     <IconEdit size={34} />
                 </ActionIcon>

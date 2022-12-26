@@ -12,6 +12,13 @@ export default class CompanyAPIService{
             });
     }
 
+    getCompany(id, callback){
+        axios.get(this._BaseURL+'company/'+id)
+            .then((res) =>{
+                callback(res.data);
+            });
+    }
+
     postCompany(payload, callback){
         axios.post(this._BaseURL+'company', payload)
             .then((res) =>{

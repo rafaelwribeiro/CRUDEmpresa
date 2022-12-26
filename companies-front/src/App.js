@@ -23,7 +23,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/companies" element={<Companies />} />
-          <Route path="/company/:id" element={<Company />} />
+          <Route path="/company/:idCompany" element={<Company />} />
+          <Route path="/company" element={<Company />} />
         </Routes>
       </AppShell>
     </MantineProvider>
