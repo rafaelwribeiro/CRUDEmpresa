@@ -38,7 +38,7 @@ export default function Company(){
             </Tabs.Panel>
             <Tabs.Panel value="employee" pt="xs">
                 <TableEmployee
-                    employees={[]}
+                    employees={company?.employes}
                 />
             </Tabs.Panel>
         </Tabs>
