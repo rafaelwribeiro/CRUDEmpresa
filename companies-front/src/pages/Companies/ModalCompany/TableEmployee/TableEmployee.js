@@ -2,12 +2,21 @@ import { Table, ActionIcon } from '@mantine/core';
 import { IconEdit } from '@tabler/icons';
 
 export default function TableEmployee({employes}){
-    let rows = employes.map((emp, index)=>(
+    let rows = [];
+    if(employes)
+        rows = employes.map((emp, index)=>(
         <tr key={emp.id}>
             <td></td>
             <td>{emp.name}</td>
             <td>{emp.role.name}</td>
-            <td>{emp.salary}</td>
+            <td>
+                {
+                    (emp.salary).toLocaleString('pt-BR', {
+                                style: 'currency',
+                                currency: 'BRL',
+                    })
+                }
+            </td>
             <td>
                 <ActionIcon
                     size="xl"

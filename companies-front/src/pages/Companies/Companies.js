@@ -37,12 +37,31 @@ export default function Companies(){
 
     let onSuccess = () => {
         setModalCompanyOpened(false);
-        alert('deu bão');
+        alert('Sucesso!');
         loadData();
     }
 
     let handleEdit = (data) => {
         setCompany(data);
+        setModalCompanyOpened(true);
+    }
+
+    let handleNewCompany = () => {
+        setCompany(
+            {
+                id: '',
+                name: '',
+                phone: '',
+                address: {
+                    zipCode: '',
+                    street: '',
+                    number: '',
+                    neighborhood: '',
+                    city: '',
+                    state: ''
+                }
+            }
+        );
         setModalCompanyOpened(true);
     }
 
@@ -55,7 +74,7 @@ export default function Companies(){
             onSuccess={onSuccess}
          />
         <section>
-            <Button onClick={() => setModalCompanyOpened(true)}>Nova empresa</Button>
+            <Button onClick={() => handleNewCompany()}>Nova empresa</Button>
             <TableCompany
                 itens={companies}
                 handleEdit={handleEdit} />

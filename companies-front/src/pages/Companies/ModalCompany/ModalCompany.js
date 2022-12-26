@@ -1,6 +1,6 @@
 import { Modal, TextInput, Divider , Button, Group, Box, Tabs } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ViaCEPAPIService from '../../../services/ViaCEPAPIService.js';
 import CompanyAPIService from '../../../services/CompanyAPIService.js';
 import { IconFileDatabase } from '@tabler/icons';
@@ -8,6 +8,7 @@ import TableEmployee from './TableEmployee';
 
 export default function ModalCompany({company, opened, onClose, onSuccess}){
     const [zipCodeFind, setZipCodeFind] = useState('');
+    const [companyEdit, setName] = useState(company);
     const form = useForm({
         initialValues: {
             id: '',
@@ -32,9 +33,7 @@ export default function ModalCompany({company, opened, onClose, onSuccess}){
                 return null;
             },
         },
-    });
-
-    
+    });    
 
     let zipCodeAPI = ViaCEPAPIService.getInstance();
     let companyApi = CompanyAPIService.getInstance();
@@ -88,6 +87,7 @@ export default function ModalCompany({company, opened, onClose, onSuccess}){
                                 label="Nome"
                                 placeholder="Nome"
                                 {...form.getInputProps('name')}
+                                
                             />
 
                             <TextInput
