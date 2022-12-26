@@ -1,7 +1,7 @@
 import { Table, ActionIcon } from '@mantine/core';
-import { IconEdit } from '@tabler/icons';
+import { IconEdit, IconMinus } from '@tabler/icons';
 
-export default function TableEmployee({employees, handleEdit}){
+export default function TableEmployee({employees, handleEdit, handleDelete}){
     let rows = [];
 
     if(employees)
@@ -28,6 +28,16 @@ export default function TableEmployee({employees, handleEdit}){
                     <IconEdit size={34} />
                 </ActionIcon>
             </td>
+            <td>
+                <ActionIcon
+                    size="xl"
+                    radius="md"
+                    variant="filled"
+                    onClick={(evt) => handleDelete(emp)}
+                >
+                    <IconMinus size={34} />
+                </ActionIcon>
+            </td>
         </tr>
     ));
 
@@ -39,6 +49,7 @@ export default function TableEmployee({employees, handleEdit}){
                     <th>Nome</th>
                     <th>Cargo</th>
                     <th>Salário</th>
+                    <th></th>
                     <th></th>
                 </tr>
             </thead>

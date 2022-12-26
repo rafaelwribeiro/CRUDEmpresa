@@ -38,4 +38,12 @@ export default class CompanyAPIService{
             })
             .catch((err)=>console.log(err));
     }
+
+    delete(id, callback){
+        axios.delete(this._BaseURL+'company/'+id)
+            .then((res) =>{
+                callback(res);
+            })
+            .catch((err)=>console.log(err));
+    }
 }

@@ -5,6 +5,7 @@ import FormCompany from './FormCompany';
 import TableEmployee from "./TableEmployee/TableEmployee";
 import { useEffect, useState } from "react";
 import CompanyAPIService from "../../services/CompanyAPIService";
+import EmployeeAPIService from "../../services/EmployeeAPIService";
 
 export default function Company(){
     let { idCompany } = useParams();
@@ -14,6 +15,7 @@ export default function Company(){
     const [company, setCompany] = useState();
 
     let companyApi = CompanyAPIService.getInstance();
+    let employeeApi = EmployeeAPIService.getInstance();
 
     useEffect(() => {
         LoadData();
@@ -28,6 +30,14 @@ export default function Company(){
 
     let handleEdit = (emp) =>{
         navigate(`/company/${idCompany}/employee/${emp.id}`);
+    }
+
+    let handleDelete = (emp) => {
+        employeeApi.delete(idCompany, emp.id, () => {
+            let temp = company;
+            temp.employees.filter((e) => e.id != emp.id);
+            setCompany(temp);
+        });
     }
 
     let handleNewEmployee = () => {
@@ -51,6 +61,7 @@ export default function Company(){
                 <TableEmployee
                     employees={company?.employes}
                     handleEdit={handleEdit}
+                    handleDelete={handleDelete}
                 />
             </Tabs.Panel>
         </Tabs>

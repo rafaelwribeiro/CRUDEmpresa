@@ -1,5 +1,4 @@
 ﻿using CompaniesAPI.Api.Contracts;
-using CompaniesAPI.Infra.Repositories;
 using CompaniesAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -77,13 +76,14 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpDelete]
-    public async Task<IActionResult> Delete(int idCompany, EmployeeDeleteContract contract)
+    [Route("{id}")]
+    public async Task<IActionResult> Delete(int idCompany, int id)
     {
         try
         {
-            var employee = await _employeeService.GetAsync(idCompany, contract.Id);
+            var employee = await _employeeService.GetAsync(idCompany, id);
             if (employee == null) return NotFound();
-            await _employeeService.DeleteAsync(idCompany, contract.Id);
+            await _employeeService.DeleteAsync(idCompany, id);
             return NoContent();
         }
         catch (Exception ex)

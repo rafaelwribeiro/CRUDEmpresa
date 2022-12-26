@@ -1,16 +1,15 @@
 import axios from 'axios';
 
 export default class EmployeeAPIService{
-    icCompany = 0;
-    _BaseURL = 'https://localhost:7256/company/';
-    static getInstance(icCompany){
-        console.log(icCompany);
-        return new EmployeeAPIService(icCompany);
-    }
 
-    constructor(icCompany){
-        console.log('constructor ', icCompany);
-        this.icCompany = icCompany;
+    _BaseURL = 'https://localhost:7256/company/';
+
+    _instance;
+
+    static getInstance(){
+        if(!this._instance)
+            this._instance = new EmployeeAPIService();
+        return this._instance;
     }
 
     create(idCompany, payload, callback){
@@ -31,6 +30,14 @@ export default class EmployeeAPIService{
 
     get(idCompany, idEmployee, callback){
         axios.get(this._BaseURL+`${idCompany}/employee/${idEmployee}`)
+            .then((res) => {
+                callback(res.data);
+            })
+            .catch((err) => console.log(err));           
+    }
+
+    delete(idCompany, idEmployee, callback){
+        axios.delete(this._BaseURL+`${idCompany}/employee/${idEmployee}`)
             .then((res) => {
                 callback(res.data);
             })

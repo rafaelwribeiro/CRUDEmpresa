@@ -1,7 +1,7 @@
 import { Table, ActionIcon } from '@mantine/core';
-import { IconEdit } from '@tabler/icons';
+import { IconEdit, IconMinus } from '@tabler/icons';
 
-export default function TableCompany({itens, handleEdit}){
+export default function TableCompany({itens, handleEdit, handleDelete}){
     let rows = itens.map((company, index)=>(
         <tr key={company.id}>
             <td>{company.id}</td>
@@ -18,6 +18,16 @@ export default function TableCompany({itens, handleEdit}){
                     <IconEdit size={34} />
                 </ActionIcon>
             </td>
+            <td>
+            <ActionIcon
+                    size="xl"
+                    radius="md"
+                    variant="filled"
+                    onClick={() => handleDelete(company)}
+                >
+                    <IconMinus size={34} />
+                </ActionIcon>
+            </td>
         </tr>
     ));
 
@@ -29,6 +39,7 @@ export default function TableCompany({itens, handleEdit}){
                     <th>Nome</th>
                     <th>Fone</th>
                     <th>Endereço</th>
+                    <th></th>
                     <th></th>
                 </tr>
             </thead>
