@@ -12,7 +12,6 @@ export default class ViaCEPAPIService{
         axios.get(`https://viacep.com.br/ws/${cep}/json/`)
             .then((res) =>{
                 let data = res.data;
-                console.log(data);
                 let address = {};
                 if(data.erro){
                     address = {
