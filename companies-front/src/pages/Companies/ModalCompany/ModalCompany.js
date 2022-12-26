@@ -1,69 +1,91 @@
+import React, { useEffect } from 'react';
 import { Modal, TextInput, Divider , Button, Group, Box, Tabs } from '@mantine/core';
-import { useForm } from '@mantine/form';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ViaCEPAPIService from '../../../services/ViaCEPAPIService.js';
 import CompanyAPIService from '../../../services/CompanyAPIService.js';
 import { IconFileDatabase } from '@tabler/icons';
 import TableEmployee from './TableEmployee';
 
 export default function ModalCompany({company, opened, onClose, onSuccess}){
+    const [id, setId] = useState('');
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [zipCode, setZipCode] = useState('');
     const [zipCodeFind, setZipCodeFind] = useState('');
-    const [companyEdit, setName] = useState(company);
-    const form = useForm({
-        initialValues: {
-            id: '',
-            name: '',
-            phone: '',
-            address: {
-                zipCode: '',
-                street: '',
-                number: '',
-                neighborhood: '',
-                city: '',
-                state: ''
-            }
-        },
-  
-        validate: {
-          name: (value) => {
-                if(value.length > 200)
-                    return 'Nome deve possuir menos de 200 caracteres';
-                if(value.length <= 0)
-                    return 'Nome é obrigatorio';
-                return null;
-            },
-        },
-    });    
+    const [street, setStreet] = useState('');
+    const [number, setNumber] = useState('');
+    const [neighborhood, setNeighborhood] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+    const [complement, setComplement] = useState('');
+    
+    
+
+    useEffect(
+        ()=>{
+            setId(company.id ?? '');
+            setName(company.name);
+            setPhone(company.phone);
+            setZipCode(company?.address?.zipCode ?? '');
+            setStreet(company?.address?.street ?? '');
+            setNumber(company?.address?.number ?? '');
+            setNeighborhood(company?.address?.neighborhood ?? '');
+            setCity(company?.address?.city ?? '');
+            setState(company?.address?.state ?? '');
+            setComplement(company?.address?.complement ?? '');
+        }, [company]
+    );
 
     let zipCodeAPI = ViaCEPAPIService.getInstance();
     let companyApi = CompanyAPIService.getInstance();
 
     let getAddresByZipCode = () => {
-        let zipCode = form.values.address.zipCode.trim().replace(/\D/g, "");;
+        let _zipCode = zipCode.trim().replace(/\D/g, "");;
 
-        if(zipCode.length != 8)
+        if(_zipCode.length != 8)
             return;
 
-        if(zipCodeFind == zipCode)
+        if(zipCodeFind == _zipCode)
             return;
         
-        console.log('busca cep', zipCode);
+        console.log('busca cep', _zipCode);
         
-        zipCodeAPI.findCep(zipCode, (res) => {
-            form.values.address.street = res.street;
-            form.values.address.neighborhood = res.neighborhood;
-            form.values.address.city = res.city;
-            form.values.address.state = res.state;
-            setZipCodeFind(zipCode);
-        });
+        /*zipCodeAPI.findCep(zipCode, (res) => {
+            street = res.street;
+            neighborhood = res.neighborhood;
+            city = res.city;
+            state = res.state;
+            setZipCodeFind(_zipCode);
+        });*/
             
     }
 
-    let handleSubmit = (values) => {
-        companyApi.postCompany(values, ()=> {
-            form.reset();
-            onSuccess();
-        });
+    let handleSubmit = (evt) => {
+        evt.preventDefault();
+        
+        let newCompany = {
+            name: name,
+            phone: phone,
+            address: {
+                zipCode: zipCode,
+                street: street,
+                number: number,
+                neighborhood: neighborhood,
+                city: city,
+                state: state,
+                complement: complement
+            }
+        };
+        if(id != ''){
+            newCompany = {...newCompany, id: id};
+            companyApi.putCompany(newCompany, ()=> {
+                onSuccess();
+            });
+        } else {
+            companyApi.postCompany(newCompany, ()=> {
+                onSuccess();
+            });
+        }
     }
 
     return (
@@ -81,20 +103,21 @@ export default function ModalCompany({company, opened, onClose, onSuccess}){
 
                 <Tabs.Panel value="company" pt="xs">
                     <Box sx={{ maxWidth: 600 }} mx="auto">
-                        <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+                        <form onSubmit={(values) => handleSubmit(values)}>
                             <TextInput
                                 withAsterisk
                                 label="Nome"
                                 placeholder="Nome"
-                                {...form.getInputProps('name')}
-                                
+                                value={name}
+                                onChange={evt => setName(evt.target.value)}
                             />
 
                             <TextInput
                                 withAsterisk
                                 label="Telefone"
                                 placeholder="(99) 9 9999-9999"
-                                {...form.getInputProps('phone')}
+                                value={phone}
+                                onChange={evt => setPhone(evt.target.value)}
                             />
 
                             <Divider my="sm" />
@@ -104,44 +127,58 @@ export default function ModalCompany({company, opened, onClose, onSuccess}){
                                 withAsterisk
                                 label="CEP"
                                 placeholder="00000-000"
-                                {...form.getInputProps('address.zipCode')}
                                 onBlur={() => getAddresByZipCode()}
+                                value={zipCode}
+                                onChange={evt => setZipCode(evt.target.value)}
                             />
                             
                             <TextInput
                                 withAsterisk
                                 label="Logradouro"
                                 placeholder="Rua ..."
-                                {...form.getInputProps('address.street')}
+                                value={street}
+                                onChange={evt => setStreet(evt.target.value)}
                             />
 
                             <TextInput
                                 withAsterisk
                                 label="Número"
                                 placeholder="000"
-                                {...form.getInputProps('address.number')}
                                 size="sm"
+                                value={number}
+                                onChange={evt => setNumber(evt.target.value)}
                             />
 
                             <TextInput
                                 withAsterisk
                                 label="Bairro"
                                 placeholder=""
-                                {...form.getInputProps('address.neighborhood')}
+                                value={neighborhood}
+                                onChange={evt => setNeighborhood(evt.target.value)}
                             />
 
                             <TextInput
                                 withAsterisk
                                 label="Cidade"
                                 placeholder=""
-                                {...form.getInputProps('address.city')}
+                                value={city}
+                                onChange={evt => setCity(evt.target.value)}
                             />
 
                             <TextInput
                                 withAsterisk
                                 label="Estado"
                                 placeholder=""
-                                {...form.getInputProps('address.state')}
+                                value={state}
+                                onChange={evt => setState(evt.target.value)}
+                            />
+
+                            <TextInput
+                                withAsterisk
+                                label="Complemento"
+                                placeholder=""
+                                value={complement}
+                                onChange={evt => setComplement(evt.target.value)}
                             />
 
                             <Group position="right" mt="md">

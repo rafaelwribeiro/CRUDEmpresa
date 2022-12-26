@@ -19,4 +19,12 @@ export default class CompanyAPIService{
             })
             .catch((err)=>console.log(err));
     }
+
+    putCompany(payload, callback){
+        axios.put(this._BaseURL+'company', payload)
+            .then((res) =>{
+                callback(res);
+            })
+            .catch((err)=>console.log(err));
+    }
 }

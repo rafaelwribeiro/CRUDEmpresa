@@ -67,6 +67,11 @@ namespace CompaniesAPI.Services
         private void MapAddress(Company company, CompanyUpdateContract contract)
         {
             if (contract.Address == null) return;
+            if(company.Address == null)
+            {
+                company.Address = contract.Address.Adapt<Address>();
+                return;
+            }
             company.Address.ZipCode= contract.Address.ZipCode;
             company.Address.Street = contract.Address.Street;
             company.Address.Number= contract.Address.Number;
