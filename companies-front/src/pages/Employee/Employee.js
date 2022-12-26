@@ -2,11 +2,13 @@ import { TextInput, Button, Group, Box, Select } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import RoleAPIService from '../../services/RoleAPIService.js';
 import EmployeeAPIService from '../../services/EmployeeAPIService.js';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 export default function Employee(){
     let { idCompany, idEmployee } = useParams();
+
+    const navigate = useNavigate();
 
     const [id, setId] = useState(0);
     const [name, setName] = useState('');
@@ -52,13 +54,17 @@ export default function Employee(){
         if(id){
             employee = {...employee, id: id}
             employeeApi.update(idCompany, employee, (res) => {
-                console.log(res);
+                onSucess();
             });
         } else {
             employeeApi.create(idCompany, employee, (res) => {
-                console.log(res);
+                onSucess();
             });
         }
+    }
+
+    let onSucess = () => {
+        navigate(-1);
     }
 
     return (

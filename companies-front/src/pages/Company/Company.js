@@ -34,9 +34,7 @@ export default function Company(){
 
     let handleDelete = (emp) => {
         employeeApi.delete(idCompany, emp.id, () => {
-            let temp = company;
-            temp.employees.filter((e) => e.id != emp.id);
-            setCompany(temp);
+            LoadData();
         });
     }
 
