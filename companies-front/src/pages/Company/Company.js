@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { Tabs } from '@mantine/core';
 import { IconFileDatabase } from '@tabler/icons';
 import FormCompany from './FormCompany';
+import TableEmployee from "./TableEmployee/TableEmployee";
 
 export default function Company(){
     let { idCompany } = useParams();
@@ -19,7 +20,9 @@ export default function Company(){
                 />
             </Tabs.Panel>
             <Tabs.Panel value="employee" pt="xs">
-                
+                <TableEmployee
+                    employees={[]}
+                />
             </Tabs.Panel>
         </Tabs>
     );
