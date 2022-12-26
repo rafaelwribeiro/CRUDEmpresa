@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom";
-import { Tabs } from '@mantine/core';
+import { useNavigate, useParams } from "react-router-dom";
+import { Tabs, Button } from '@mantine/core';
 import { IconFileDatabase } from '@tabler/icons';
 import FormCompany from './FormCompany';
 import TableEmployee from "./TableEmployee/TableEmployee";
@@ -8,6 +8,8 @@ import CompanyAPIService from "../../services/CompanyAPIService";
 
 export default function Company(){
     let { idCompany } = useParams();
+
+    const navigate = useNavigate();
 
     const [company, setCompany] = useState();
 
@@ -24,6 +26,14 @@ export default function Company(){
         });
     }
 
+    let handleEdit = (emp) =>{
+        navigate(`/company/${idCompany}/employee/${emp.id}`);
+    }
+
+    let handleNewEmployee = () => {
+        navigate(`/company/${idCompany}/employee`);
+    }
+
     return (
         <Tabs defaultValue="company" allowTabDeactivation={true}>
             <Tabs.List>
@@ -37,8 +47,10 @@ export default function Company(){
                 />
             </Tabs.Panel>
             <Tabs.Panel value="employee" pt="xs">
+                <Button onClick={() => handleNewEmployee()}>Novo Funcionário</Button>
                 <TableEmployee
                     employees={company?.employes}
+                    handleEdit={handleEdit}
                 />
             </Tabs.Panel>
         </Tabs>

@@ -29,4 +29,12 @@ export default class EmployeeAPIService{
             .catch((err) => console.log(err));
     }
 
+    get(idCompany, idEmployee, callback){
+        axios.get(this._BaseURL+`${idCompany}/employee/${idEmployee}`)
+            .then((res) => {
+                callback(res.data);
+            })
+            .catch((err) => console.log(err));           
+    }
+
 }

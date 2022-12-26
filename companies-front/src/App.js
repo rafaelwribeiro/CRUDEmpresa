@@ -6,6 +6,7 @@ import Companies from './pages/Companies';
 import Company from './pages/Company';
 import Menu from './template/Menu';
 import './App.css';
+import Employee from './pages/Employee';
 
 function App() {
   return (
@@ -25,6 +26,8 @@ function App() {
           <Route path="/companies" element={<Companies />} />
           <Route path="/company/:idCompany" element={<Company />} />
           <Route path="/company" element={<Company />} />
+          <Route path="/company/:idCompany/employee/:idEmployee" element={<Employee />} />
+          <Route path="/company/:idCompany/employee" element={<Employee />} />
         </Routes>
       </AppShell>
     </MantineProvider>

@@ -1,8 +1,9 @@
 import { Table, ActionIcon } from '@mantine/core';
 import { IconEdit } from '@tabler/icons';
 
-export default function TableEmployee({employees}){
+export default function TableEmployee({employees, handleEdit}){
     let rows = [];
+
     if(employees)
         rows = employees.map((emp, index)=>(
         <tr key={emp.id}>
@@ -29,10 +30,6 @@ export default function TableEmployee({employees}){
             </td>
         </tr>
     ));
-
-    let handleEdit = (emp) => {
-
-    }
 
     return (
         <Table striped highlightOnHover horizontalSpacing="xl" verticalSpacing="xl" fontSize="xl">
