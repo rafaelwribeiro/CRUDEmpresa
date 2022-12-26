@@ -1,10 +1,50 @@
 import React from 'react';
-import { Modal, Tabs } from '@mantine/core';
+import { Modal, Tabs, Button } from '@mantine/core';
 import { IconFileDatabase } from '@tabler/icons';
 import TableEmployee from './TableEmployee';
 import FormCompany from './FormCompany';
+import { useState } from 'react';
+import ModalEmployee from './ModalEmployee/ModalEmployee';
 
 export default function ModalCompany({company, opened, onClose, onSuccess}){
+    const [modalEmployeeOpened, setModalEmployeeOpened] = useState(false);
+    const [employee, setEmployee] = useState({
+        id: '',
+        name: '',
+        salary: 0,
+        role: {
+            id: 0
+        }
+    });
+
+    let handleNewEmployee = () => {
+        setEmployee(
+            {
+                id: '',
+                name: '',
+                salary: 0,
+                role: {
+                    id: 0
+                }
+            }
+        );
+        setModalEmployeeOpened(true);
+    };
+
+    let onSuccessEmployee = () => {
+        setModalEmployeeOpened(false);
+        alert('Sucesso!');
+        loadData();
+    }
+
+    let handleEdit = (data) => {
+        setEmployee(data);
+        setModalEmployeeOpened(true);
+    }
+
+    let loadData = () => {
+
+    }
 
     return (
         <Modal
@@ -26,8 +66,16 @@ export default function ModalCompany({company, opened, onClose, onSuccess}){
                     />
                 </Tabs.Panel>
                 <Tabs.Panel value="employee" pt="xs">
+                    <ModalEmployee
+                        employee={employee}
+                        opened={modalEmployeeOpened}
+                        onClose={() =>setModalEmployeeOpened(false)}
+                        onSuccess={onSuccessEmployee}
+                    />
+                    <Button onClick={() => handleNewEmployee()}>Novo Funcionário</Button>
                     <TableEmployee
                         employes={company.employes}
+                        handleEdit={handleEdit}
                     />
                 </Tabs.Panel>
             </Tabs>
