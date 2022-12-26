@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import TableCompany from './TableCompany';
 import { Button } from '@mantine/core';
 import ModalCompany from './ModalCompany';
+import { redirect, useNavigate } from 'react-router-dom';
 
 export default function Companies(){
     const [companies, setCompanies] = useState([]);
@@ -20,6 +21,7 @@ export default function Companies(){
             state: ''
         }
     });
+    const navigate = useNavigate();
     
 
     let api = CompanyAPIService.getInstance();
@@ -42,8 +44,9 @@ export default function Companies(){
     }
 
     let handleEdit = (data) => {
-        setCompany(data);
-        setModalCompanyOpened(true);
+        navigate('/company/'+data.id);
+        //setCompany(data);
+        //setModalCompanyOpened(true);
     }
 
     let handleNewCompany = () => {
