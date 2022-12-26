@@ -45,11 +45,8 @@ export default function FormCompany({company, onSuccess}){
         if(zipCodeFind == _zipCode)
             return;
         
-        console.log('busca cep', _zipCode);
-        
         zipCodeAPI.findCep(zipCode,
             (res) => {
-                console.log('ué', res);
                 setStreet(res.street);
                 setNeighborhood(res.neighborhood);
                 setCity(res.city);

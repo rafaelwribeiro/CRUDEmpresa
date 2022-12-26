@@ -13,10 +13,10 @@ export default function ModalCompany({company, opened, onClose, onSuccess}){
             title="Cadastrar nova empresa"
             size="lg"
         >
-            <Tabs defaultValue="company">
+            <Tabs defaultValue="company" allowTabDeactivation={true}>
                 <Tabs.List>
                     <Tabs.Tab value="company" icon={<IconFileDatabase size={14} />}>Empresa</Tabs.Tab>
-                    <Tabs.Tab value="employee" icon={<IconFileDatabase size={14} />}>Funcionarios</Tabs.Tab>
+                    <Tabs.Tab value="employee" icon={<IconFileDatabase size={14} />} hidden={!company.id}>Funcionarios</Tabs.Tab>
                 </Tabs.List>
 
                 <Tabs.Panel value="company" pt="xs">
