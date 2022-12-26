@@ -1,8 +1,12 @@
 import axios from 'axios';
 export default class CompanyAPIService{
     _BaseURL = 'https://localhost:7256/';
+    _instance = null;
+
     static getInstance(){
-        return new CompanyAPIService();
+        if(!this._instance)
+        this._instance =  new CompanyAPIService();
+        return this._instance;
     }
 
     getCompanies(callback){

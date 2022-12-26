@@ -3,9 +3,26 @@ import { Tabs } from '@mantine/core';
 import { IconFileDatabase } from '@tabler/icons';
 import FormCompany from './FormCompany';
 import TableEmployee from "./TableEmployee/TableEmployee";
+import { useEffect, useState } from "react";
+import CompanyAPIService from "../../services/CompanyAPIService";
 
 export default function Company(){
     let { idCompany } = useParams();
+
+    const [company, setCompany] = useState();
+
+    let companyApi = CompanyAPIService.getInstance();
+
+    useEffect(() => {
+        LoadData();
+    }, []);
+
+    let LoadData = () =>{
+        if(!idCompany) return;
+        companyApi.getCompany(idCompany, (res)=>{
+            setCompany(res);
+        });
+    }
 
     return (
         <Tabs defaultValue="company" allowTabDeactivation={true}>
@@ -16,7 +33,7 @@ export default function Company(){
 
             <Tabs.Panel value="company" pt="xs">
                 <FormCompany
-                    idCompany={idCompany}
+                    company={company}
                 />
             </Tabs.Panel>
             <Tabs.Panel value="employee" pt="xs">

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import ViaCEPAPIService from '../../../services/ViaCEPAPIService';
 import CompanyAPIService from '../../../services/CompanyAPIService.js';
 
-export default function FormCompany({idCompany}){
+export default function FormCompany({company}){
     const [id, setId] = useState('');
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
@@ -24,25 +24,22 @@ export default function FormCompany({idCompany}){
 
     useEffect(
         ()=>{
-            LoadData();
+            populateFields();
         }, []
     );
 
-    let LoadData = () =>{
-        if(!idCompany) return;
-        companyApi.getCompany(idCompany, (res)=>{
-            let company = res;
-            setId(company.id ?? '');
-            setName(company.name);
-            setPhone(company.phone);
-            setZipCode(company?.address?.zipCode ?? '');
-            setStreet(company?.address?.street ?? '');
-            setNumber(company?.address?.number ?? '');
-            setNeighborhood(company?.address?.neighborhood ?? '');
-            setCity(company?.address?.city ?? '');
-            setState(company?.address?.state ?? '');
-            setComplement(company?.address?.complement ?? '');
-        });
+    let populateFields = () =>{
+        if(!company) return;
+        setId(company?.id ?? '');
+        setName(company?.name);
+        setPhone(company?.phone);
+        setZipCode(company?.address?.zipCode ?? '');
+        setStreet(company?.address?.street ?? '');
+        setNumber(company?.address?.number ?? '');
+        setNeighborhood(company?.address?.neighborhood ?? '');
+        setCity(company?.address?.city ?? '');
+        setState(company?.address?.state ?? '');
+        setComplement(company?.address?.complement ?? '');
     }
 
     let getAddresByZipCode = () => {
